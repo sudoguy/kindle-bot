@@ -104,6 +104,7 @@ func main() {
 		if err := d.DialAndSend(m); err != nil {
 			log.Error().Err(err)
 		} else {
+			_ = os.Remove(userId + "/" + document.FileName)
 			log.Info().Msg("Book " + document.FileName + " was sent to " + to)
 		}
 
