@@ -76,7 +76,7 @@ func main() {
 		userId := strconv.Itoa(update.Message.From.ID)
 		_ = os.MkdirAll(userId, os.ModePerm)
 
-		err = r.ToFile(userId + "/" + document.FileName)
+		err = r.ToFile("books/" + userId + "/" + document.FileName)
 		if err != nil {
 			log.Error().Err(err)
 			continue
@@ -97,7 +97,7 @@ func main() {
 		m.SetHeader("From", from)
 		m.SetHeader("To", to)
 		m.SetHeader("Subject", "New book from Awesome Kindle Bot!")
-		m.Attach(userId + "/" + document.FileName)
+		m.Attach("books/" + userId + "/" + document.FileName)
 
 		d := gomail.NewDialer(smtpHost, smtpPort, emailUsername, emailPassword)
 
