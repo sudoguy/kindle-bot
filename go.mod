@@ -1,4 +1,4 @@
-module github.com/sudoguy/kindle-bot
+module github.com/sudoguy/kindle-bot/cmd/bot
 
 go 1.14
 
