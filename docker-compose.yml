@@ -8,3 +8,5 @@ services:
     restart: always
     env_file: .env
     command: /root/bot
+    volumes:
+    - ./books:/root
