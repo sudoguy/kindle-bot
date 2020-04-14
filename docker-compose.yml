@@ -6,3 +6,5 @@ services:
       context: .
     container_name: kindle-bot
     restart: always
+    env_file: .env
+    command: /root/bot
