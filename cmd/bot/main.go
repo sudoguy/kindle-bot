@@ -74,7 +74,7 @@ func main() {
 
 		r, _ := req.Get(fileUrl)
 		userId := strconv.Itoa(update.Message.From.ID)
-		_ = os.MkdirAll(userId, os.ModePerm)
+		_ = os.MkdirAll("books/"+userId, os.ModePerm)
 
 		err = r.ToFile("books/" + userId + "/" + document.FileName)
 		if err != nil {
