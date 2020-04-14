@@ -93,10 +93,11 @@ func main() {
 		smtpHost := os.Getenv("SMTP_HOST")
 		smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
 
-		m := gomail.NewMessage()
+		m := gomail.NewMessage(gomail.SetEncoding(gomail.Base64))
 		m.SetHeader("From", from)
 		m.SetHeader("To", to)
 		m.SetHeader("Subject", "New book from Awesome Kindle Bot!")
+		m.SetBody("text/html", "Get your book!")
 		m.Attach("books/" + userId + "/" + document.FileName)
 
 		d := gomail.NewDialer(smtpHost, smtpPort, emailUsername, emailPassword)
