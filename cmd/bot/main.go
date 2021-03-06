@@ -40,7 +40,7 @@ func main() {
 	}
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
-	go http.ListenAndServe(":"+port, nil)
+	go http.ListenAndServe(":"+port, nil) //nolint:errcheck
 
 	for update := range updates {
 		if update.Message == nil { // ignore any non-Message Updates
