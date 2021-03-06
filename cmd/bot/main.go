@@ -1,13 +1,15 @@
 package main
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"net/http"
+	"os"
+	"strconv"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/imroc/req"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/gomail.v2"
-	"os"
-	"strconv"
 )
 
 func main() {
@@ -24,14 +26,16 @@ func main() {
 
 	log.Info().Msg("Authorized on account " + bot.Self.UserName)
 
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
+	port := os.Getenv("PORT")
+	herokuAppName := os.Getenv("HEROKU_APP_NAME")
 
-	updates, err := bot.GetUpdatesChan(u)
-
+	_, err = bot.SetWebhook(tgbotapi.NewWebhook("https://" + herokuAppName + ".herokuapp.com:443/" + bot.Token))
 	if err != nil {
-		log.Error().Err(err)
+		log.Panic().Err(err)
 	}
+
+	updates := bot.ListenForWebhook("/" + bot.Token)
+	go http.ListenAndServe(":"+port, nil)
 
 	for update := range updates {
 		if update.Message == nil { // ignore any non-Message Updates
