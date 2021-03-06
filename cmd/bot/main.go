@@ -29,11 +29,11 @@ func main() {
 	port := os.Getenv("PORT")
 	herokuAppName := os.Getenv("HEROKU_APP_NAME")
 
-	response, err = bot.SetWebhook(tgbotapi.NewWebhook("https://" + herokuAppName + ".herokuapp.com:443/" + bot.Token))
+	resp, err := bot.SetWebhook(tgbotapi.NewWebhook("https://" + herokuAppName + ".herokuapp.com:443/" + bot.Token))
 	if err != nil {
 		log.Panic().Err(err)
 	} else {
-		log.Info().Msg(response.Description)
+		log.Info().Msg(resp.Description)
 	}
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
