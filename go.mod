@@ -1,5 +1,6 @@
 module github.com/sudoguy/kindle-bot/cmd/bot
 
+// +heroku goVersion go1.18
 go 1.18
 
 require (
