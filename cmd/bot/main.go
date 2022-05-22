@@ -7,6 +7,8 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/imroc/req"
+	"golang.org/x/exp/slices"
+
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/gomail.v2"
@@ -63,8 +65,8 @@ func main() {
 
 		document := update.Message.Document
 
-		if document.MimeType != "application/x-mobipocket-ebook" {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Unfortunately, I can receive only .mobi books 😭")
+		if !slices.Contains([]string{"application/x-mobipocket-ebook", "application/epub+zip"}, document.MimeType) {
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Unfortunately, I can receive only .mobi and .epub books 😭")
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			_, err := bot.Send(msg)
