@@ -29,9 +29,9 @@ func main() {
 	log.Info().Msg("Authorized on account " + bot.Self.UserName)
 
 	port := os.Getenv("PORT")
-	herokuAppName := os.Getenv("HEROKU_APP_NAME")
+	appName := os.Getenv("APP_NAME")
 
-	webhookHost := "https://" + herokuAppName + ".herokuapp.com/" + bot.Token
+	webhookHost := "https://" + appName + ".fly.dev/" + bot.Token
 	log.Info().Msg("Webhook host: " + webhookHost)
 
 	resp, err := bot.SetWebhook(tgbotapi.NewWebhook(webhookHost))

@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: docker/Dockerfile
     container_name: kindle-bot
     restart: always
     env_file: .env
