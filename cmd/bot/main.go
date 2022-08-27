@@ -113,10 +113,18 @@ func main() {
 
 		d := gomail.NewDialer(smtpHost, smtpPort, emailUsername, emailPassword)
 
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+
 		if err := d.DialAndSend(m); err != nil {
 			log.Error().Err(err)
+			msg.Text = "An error has occurred. " + document.FileName + " was not sent"
 		} else {
 			log.Info().Msg("Book " + document.FileName + " was sent to " + to)
+			msg.Text = document.FileName + " is successfully sent"
+		}
+
+		if _, err := bot.Send(msg); err != nil {
+			log.Err(err)
 		}
 
 	}
