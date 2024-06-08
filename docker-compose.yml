@@ -1,13 +1,12 @@
-version: "3.1"
-
 services:
   app:
     build:
       context: .
       dockerfile: docker/Dockerfile
     container_name: kindle-bot
-    restart: always
+    restart: unless-stopped
     env_file: .env
     command: /root/bot
     volumes:
-    - ./books:/root/books
+      - ./books:/root/books
+      - ./senders.json:/root/senders.json
