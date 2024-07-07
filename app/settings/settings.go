@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Settings represents the application settings.
 type Settings struct {
 	BotToken string `json:"bot_token"`
 	Debug    bool   `json:"debug"`
@@ -13,10 +14,11 @@ type Settings struct {
 	FromEmail     string `json:"from_email"`
 	EmailUsername string `json:"email_username"`
 	EmailPassword string `json:"email_password"`
-	SmtpHost      string `json:"smtp_host"`
-	SmtpPort      int    `json:"smtp_port"`
+	SMTPHost      string `json:"smtp_host"`
+	SMTPPort      int    `json:"smtp_port"`
 }
 
+// NewSettings creates a new Settings instance.
 func NewSettings() *Settings {
 	smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
 
@@ -27,11 +29,12 @@ func NewSettings() *Settings {
 		FromEmail:     os.Getenv("FROM_EMAIL"),
 		EmailUsername: os.Getenv("EMAIL_USERNAME"),
 		EmailPassword: os.Getenv("EMAIL_PASSWORD"),
-		SmtpHost:      os.Getenv("SMTP_HOST"),
-		SmtpPort:      smtpPort,
+		SMTPHost:      os.Getenv("SMTP_HOST"),
+		SMTPPort:      smtpPort,
 	}
 }
 
+// Validate validates the settings.
 func (settings *Settings) Validate() error {
 	if settings.BotToken == "" {
 		return errors.New("BOT_TOKEN is required")
@@ -45,10 +48,10 @@ func (settings *Settings) Validate() error {
 	if settings.EmailPassword == "" {
 		return errors.New("EMAIL_PASSWORD is required")
 	}
-	if settings.SmtpHost == "" {
+	if settings.SMTPHost == "" {
 		return errors.New("SMTP_HOST is required")
 	}
-	if settings.SmtpPort == 0 {
+	if settings.SMTPPort == 0 {
 		return errors.New("SMTP_PORT is required")
 	}
 

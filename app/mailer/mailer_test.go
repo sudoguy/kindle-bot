@@ -13,8 +13,8 @@ func TestNewMailer(t *testing.T) {
 		FromEmail:     "test@example.com",
 		EmailUsername: "username",
 		EmailPassword: "password",
-		SmtpHost:      "smtp.example.com",
-		SmtpPort:      587,
+		SMTPHost:      "smtp.example.com",
+		SMTPPort:      587,
 	}
 
 	toEmail := "recipient@example.com"
@@ -25,6 +25,6 @@ func TestNewMailer(t *testing.T) {
 	assert.Equal(t, toEmail, m.To, "Expected To to be %s, but got %s", toEmail, m.To)
 	assert.Equal(t, mockSettings.EmailUsername, m.EmailUsername, "Expected EmailUsername to be %s, but got %s", mockSettings.EmailUsername, m.EmailUsername)
 	assert.Equal(t, mockSettings.EmailPassword, m.EmailPassword, "Expected EmailPassword to be %s, but got %s", mockSettings.EmailPassword, m.EmailPassword)
-	assert.Equal(t, mockSettings.SmtpHost, m.SmtpHost, "Expected SmtpHost to be %s, but got %s", mockSettings.SmtpHost, m.SmtpHost)
-	assert.Equal(t, mockSettings.SmtpPort, m.SmtpPort, "Expected SmtpPort to be %d, but got %d", mockSettings.SmtpPort, m.SmtpPort)
+	assert.Equal(t, mockSettings.SMTPHost, m.SMTPHost, "Expected SmtpHost to be %s, but got %s", mockSettings.SMTPHost, m.SMTPHost)
+	assert.Equal(t, mockSettings.SMTPPort, m.SMTPPort, "Expected SmtpPort to be %d, but got %d", mockSettings.SMTPPort, m.SMTPPort)
 }

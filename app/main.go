@@ -24,13 +24,13 @@ func main() {
 		log.Error().Err(err).Msg(".env file not found")
 	}
 
-	settings := settings.NewSettings()
-	if err := settings.Validate(); err != nil {
+	appSettings := settings.NewSettings()
+	if err := appSettings.Validate(); err != nil {
 		log.Fatal().Err(err).Msg("Invalid settings")
 	}
 
 	pref := tele.Settings{
-		Token:  settings.BotToken,
+		Token:  appSettings.BotToken,
 		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
 	}
 
@@ -59,5 +59,4 @@ func main() {
 	}
 
 	bot.Start()
-
 }

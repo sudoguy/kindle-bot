@@ -9,18 +9,21 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// SenderInfo represents information about a sender.
 type SenderInfo struct {
 	Email      string `json:"email,omitempty"`
 	UserName   string `json:"username"`
-	TelegramId int64  `json:"telegram_id"`
+	TelegramID int64  `json:"telegram_id"`
 	BooksSent  int    `json:"sent_books"`
 }
 
+// Storage represents a storage for senders.
 type Storage struct {
 	mu      sync.Mutex
 	Senders []SenderInfo `json:"senders"`
 }
 
+// NewStorage creates a new storage.
 func NewStorage() *Storage {
 	storage := &Storage{}
 	storage.openSenders()
@@ -28,10 +31,11 @@ func NewStorage() *Storage {
 	return storage
 }
 
-func (storage *Storage) GetSenderById(id int64) (*SenderInfo, error) {
+// GetSenderByID returns a sender by ID.
+func (storage *Storage) GetSenderByID(id int64) (*SenderInfo, error) {
 	storage.openSenders()
 	for _, sender := range storage.Senders {
-		if sender.TelegramId == id {
+		if sender.TelegramID == id {
 			return &sender, nil
 		}
 	}
@@ -54,13 +58,14 @@ func (storage *Storage) openSenders() {
 	storage.Senders = senders
 }
 
+// UpdateSender updates a sender.
 func (storage *Storage) UpdateSender(sender *SenderInfo) {
 	storage.mu.Lock()
 	defer storage.mu.Unlock()
 	senders := storage.Senders
 
 	for index, item := range senders {
-		if item.TelegramId == sender.TelegramId {
+		if item.TelegramID == sender.TelegramID {
 			senders[index] = *sender
 		}
 	}
@@ -68,6 +73,7 @@ func (storage *Storage) UpdateSender(sender *SenderInfo) {
 	storage.WriteSendersToFile()
 }
 
+// WriteSendersToFile writes senders to a file.
 func (storage *Storage) WriteSendersToFile() {
 	data, err := json.Marshal(storage.Senders)
 	// print senders
@@ -77,7 +83,7 @@ func (storage *Storage) WriteSendersToFile() {
 		log.Panic().Err(err)
 	}
 
-	err = os.WriteFile("./senders.json", data, 0644)
+	err = os.WriteFile("./senders.json", data, 0o600)
 	if err != nil {
 		log.Panic().Err(err)
 	}

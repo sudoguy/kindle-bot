@@ -6,6 +6,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+// Mailer represents an email sender.
 type Mailer struct {
 	From string
 	To   string
@@ -13,21 +14,23 @@ type Mailer struct {
 	EmailUsername string
 	EmailPassword string
 
-	SmtpHost string
-	SmtpPort int
+	SMTPHost string
+	SMTPPort int
 }
 
-func NewMailer(settings settings.Settings, toEmail string) *Mailer {
+// NewMailer creates a new Mailer instance.
+func NewMailer(appSettings settings.Settings, toEmail string) *Mailer {
 	return &Mailer{
-		From:          settings.FromEmail,
+		From:          appSettings.FromEmail,
 		To:            toEmail,
-		EmailUsername: settings.EmailUsername,
-		EmailPassword: settings.EmailPassword,
-		SmtpHost:      settings.SmtpHost,
-		SmtpPort:      settings.SmtpPort,
+		EmailUsername: appSettings.EmailUsername,
+		EmailPassword: appSettings.EmailPassword,
+		SMTPHost:      appSettings.SMTPHost,
+		SMTPPort:      appSettings.SMTPPort,
 	}
 }
 
+// SendBook sends a book to the recipient.
 func (m *Mailer) SendBook(bookPath string) error {
 	message := gomail.NewMessage(gomail.SetEncoding(gomail.Base64))
 	message.SetHeader("From", m.From)
@@ -36,7 +39,7 @@ func (m *Mailer) SendBook(bookPath string) error {
 	message.SetBody("text/html", "Get your book!")
 	message.Attach(bookPath)
 
-	dialer := gomail.NewDialer(m.SmtpHost, m.SmtpPort, m.EmailUsername, m.EmailPassword)
+	dialer := gomail.NewDialer(m.SMTPHost, m.SMTPPort, m.EmailUsername, m.EmailPassword)
 
 	if err := dialer.DialAndSend(message); err != nil {
 		return err

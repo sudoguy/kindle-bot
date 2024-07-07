@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewSettings(t *testing.T) {
@@ -26,8 +27,8 @@ func TestNewSettings(t *testing.T) {
 	assert.Equal(t, "test@example.com", settings.FromEmail, "Expected FromEmail to be 'test@example.com'")
 	assert.Equal(t, "test_username", settings.EmailUsername, "Expected EmailUsername to be 'test_username'")
 	assert.Equal(t, "test_password", settings.EmailPassword, "Expected EmailPassword to be 'test_password'")
-	assert.Equal(t, "test_host", settings.SmtpHost, "Expected SmtpHost to be 'test_host'")
-	assert.Equal(t, 587, settings.SmtpPort, "Expected SmtpPort to be 587")
+	assert.Equal(t, "test_host", settings.SMTPHost, "Expected SmtpHost to be 'test_host'")
+	assert.Equal(t, 587, settings.SMTPPort, "Expected SmtpPort to be 587")
 
 	// Clean up test environment variables
 	os.Unsetenv("BOT_TOKEN")
@@ -46,45 +47,45 @@ func TestSettings_Validate(t *testing.T) {
 		FromEmail:     "test@example.com",
 		EmailUsername: "test_username",
 		EmailPassword: "test_password",
-		SmtpHost:      "test_host",
-		SmtpPort:      587,
+		SMTPHost:      "test_host",
+		SMTPPort:      587,
 	}
 
 	err := settings.Validate()
-	assert.NoError(t, err, "Expected no error")
+	require.NoError(t, err, "Expected no error")
 
 	// Test missing BotToken
 	settings.BotToken = ""
 	err = settings.Validate()
-	assert.EqualError(t, err, "BOT_TOKEN is required", "Expected error 'BOT_TOKEN is required'")
+	require.EqualError(t, err, "BOT_TOKEN is required", "Expected error 'BOT_TOKEN is required'")
 
 	// Test missing FromEmail
 	settings.BotToken = "test_token"
 	settings.FromEmail = ""
 	err = settings.Validate()
-	assert.EqualError(t, err, "FROM_EMAIL is required", "Expected error 'FROM_EMAIL is required'")
+	require.EqualError(t, err, "FROM_EMAIL is required", "Expected error 'FROM_EMAIL is required'")
 
 	// Test missing EmailUsername
 	settings.FromEmail = "test@example.com"
 	settings.EmailUsername = ""
 	err = settings.Validate()
-	assert.EqualError(t, err, "EMAIL_USERNAME is required", "Expected error 'EMAIL_USERNAME is required'")
+	require.EqualError(t, err, "EMAIL_USERNAME is required", "Expected error 'EMAIL_USERNAME is required'")
 
 	// Test missing EmailPassword
 	settings.EmailUsername = "test_username"
 	settings.EmailPassword = ""
 	err = settings.Validate()
-	assert.EqualError(t, err, "EMAIL_PASSWORD is required", "Expected error 'EMAIL_PASSWORD is required'")
+	require.EqualError(t, err, "EMAIL_PASSWORD is required", "Expected error 'EMAIL_PASSWORD is required'")
 
 	// Test missing SmtpHost
 	settings.EmailPassword = "test_password"
-	settings.SmtpHost = ""
+	settings.SMTPHost = ""
 	err = settings.Validate()
-	assert.EqualError(t, err, "SMTP_HOST is required", "Expected error 'SMTP_HOST is required'")
+	require.EqualError(t, err, "SMTP_HOST is required", "Expected error 'SMTP_HOST is required'")
 
 	// Test missing SmtpPort
-	settings.SmtpHost = "test_host"
-	settings.SmtpPort = 0
+	settings.SMTPHost = "test_host"
+	settings.SMTPPort = 0
 	err = settings.Validate()
-	assert.EqualError(t, err, "SMTP_PORT is required", "Expected error 'SMTP_PORT is required'")
+	require.EqualError(t, err, "SMTP_PORT is required", "Expected error 'SMTP_PORT is required'")
 }

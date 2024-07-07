@@ -1,0 +1,76 @@
+run:
+  timeout: 5m
+
+linters-settings:
+  govet:
+    enable:
+      - shadow
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  misspell:
+    locale: US
+  lll:
+    line-length: 140
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+    disabled-checks:
+      - wrapperFunc
+      - hugeParam
+      - rangeValCopy
+      - singleCaseSwitch
+      - ifElseChain
+
+linters:
+  enable:
+    - staticcheck # Finds bugs and performance issues in Go code
+    - revive # Enforces coding style and best practices in Go code
+    - govet # Reports potential issues in Go code
+    - unconvert # Detects unnecessary type conversions in Go code
+    - unused # Identifies unused variables and constants in Go code
+    - gosec # Checks for security issues in Go code
+    - gocyclo # Calculates cyclomatic complexity of Go functions
+    - dupl # Finds duplicated code in Go code
+    - misspell # Detects spelling errors in Go code
+    - unparam # Identifies unused function parameters in Go code
+    - typecheck # Performs type checking on Go code
+    - ineffassign # Identifies ineffectual assignments in Go code
+    - stylecheck # Enforces coding style and best practices in Go code
+    - gochecknoinits # Checks for init functions in Go code
+    - exportloopref # Detects references to loop variables in closures in Go code
+    - gocritic # Provides additional static analysis checks for Go code
+    - nakedret # Identifies naked returns in Go code
+    - gosimple # Simplifies Go code by applying simplification rules
+    - prealloc # Suggests preallocation of slices in Go code
+    - whitespace # Detects leading and trailing whitespace in Go code
+    - testifylint # Provides additional static analysis checks for Go code that uses the testify package
+    - sloglint # Checks for common mistakes in Go code that uses the slog package
+  fast: false
+  disable-all: true
+
+issues:
+  exclude-dirs:
+    - vendor
+  exclude-rules:
+    - text: "at least one file in a package should have a package comment"
+      linters:
+        - stylecheck
+    - text: "should have a package comment"
+      linters:
+        - revive
+    - path: _test\.go
+      linters:
+        - gosec
+        - dupl
+    - linters:
+        - unparam
+        - unused
+        - revive
+      path: _test\.go$
+      text: "unused-parameter"
+    - text: 'shadow: declaration of "(err|ctx)" shadows declaration at'
+      linters: [ govet ]
+  exclude-use-default: false
