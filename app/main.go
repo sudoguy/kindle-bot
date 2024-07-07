@@ -6,8 +6,8 @@ import (
 
 	tele "gopkg.in/telebot.v3"
 
-	"kindle-bot/app/handlers"
-	"kindle-bot/app/settings"
+	"github.com/sudoguy/kindle-bot/app/handlers"
+	"github.com/sudoguy/kindle-bot/app/settings"
 
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"

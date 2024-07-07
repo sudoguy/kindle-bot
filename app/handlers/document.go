@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"kindle-bot/app/mailer"
-	"kindle-bot/app/settings"
-	"kindle-bot/app/utils"
 	"os"
 	"slices"
 	"strconv"
 	"time"
+
+	"github.com/sudoguy/kindle-bot/app/mailer"
+	"github.com/sudoguy/kindle-bot/app/settings"
+	"github.com/sudoguy/kindle-bot/app/utils"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

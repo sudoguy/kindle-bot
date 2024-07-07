@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"kindle-bot/app/utils"
+	"github.com/sudoguy/kindle-bot/app/utils"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

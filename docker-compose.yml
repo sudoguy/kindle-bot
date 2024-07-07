@@ -6,7 +6,6 @@ services:
     container_name: kindle-bot
     restart: unless-stopped
     env_file: .env
-    command: /root/bot
     volumes:
       - ./books:/root/books
       - ./senders.json:/root/senders.json

@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"kindle-bot/app/utils"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/sudoguy/kindle-bot/app/utils"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

@@ -1,7 +1,7 @@
 package mailer
 
 import (
-	"kindle-bot/app/settings"
+	"github.com/sudoguy/kindle-bot/app/settings"
 
 	"gopkg.in/gomail.v2"
 )
