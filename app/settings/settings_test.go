@@ -11,7 +11,6 @@ import (
 func TestNewSettings(t *testing.T) {
 	// Set up test environment variables
 	os.Setenv("BOT_TOKEN", "test_token")
-	os.Setenv("DEBUG", "1")
 	os.Setenv("FROM_EMAIL", "test@example.com")
 	os.Setenv("EMAIL_USERNAME", "test_username")
 	os.Setenv("EMAIL_PASSWORD", "test_password")
@@ -23,7 +22,6 @@ func TestNewSettings(t *testing.T) {
 
 	// Verify the expected values
 	assert.Equal(t, "test_token", settings.BotToken, "Expected BotToken to be 'test_token'")
-	assert.True(t, settings.Debug, "Expected Debug to be true")
 	assert.Equal(t, "test@example.com", settings.FromEmail, "Expected FromEmail to be 'test@example.com'")
 	assert.Equal(t, "test_username", settings.EmailUsername, "Expected EmailUsername to be 'test_username'")
 	assert.Equal(t, "test_password", settings.EmailPassword, "Expected EmailPassword to be 'test_password'")
@@ -32,7 +30,6 @@ func TestNewSettings(t *testing.T) {
 
 	// Clean up test environment variables
 	os.Unsetenv("BOT_TOKEN")
-	os.Unsetenv("DEBUG")
 	os.Unsetenv("FROM_EMAIL")
 	os.Unsetenv("EMAIL_USERNAME")
 	os.Unsetenv("EMAIL_PASSWORD")
@@ -43,7 +40,6 @@ func TestNewSettings(t *testing.T) {
 func TestSettings_Validate(t *testing.T) {
 	settings := &Settings{
 		BotToken:      "test_token",
-		Debug:         true,
 		FromEmail:     "test@example.com",
 		EmailUsername: "test_username",
 		EmailPassword: "test_password",

@@ -9,7 +9,6 @@ import (
 // Settings represents the application settings.
 type Settings struct {
 	BotToken string `json:"bot_token"`
-	Debug    bool   `json:"debug"`
 
 	FromEmail     string `json:"from_email"`
 	EmailUsername string `json:"email_username"`
@@ -24,7 +23,6 @@ func NewSettings() *Settings {
 
 	return &Settings{
 		BotToken: os.Getenv("BOT_TOKEN"),
-		Debug:    os.Getenv("DEBUG") == "1",
 
 		FromEmail:     os.Getenv("FROM_EMAIL"),
 		EmailUsername: os.Getenv("EMAIL_USERNAME"),
