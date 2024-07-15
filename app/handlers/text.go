@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"os"
+	"strings"
 	"time"
 
 	"github.com/sudoguy/kindle-bot/app/utils"
@@ -16,6 +17,9 @@ func TextHandler(context tele.Context) error {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	log.Info().Int64("telegram_id", context.Sender().ID).Str("username", context.Sender().Username).Str("text", context.Text()).Msg("Received message")
 
+	// Remove the "/email" prefix if present
+	text, _ := strings.CutPrefix(context.Text(), "/email")
+
 	storage := utils.NewStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
 
@@ -24,8 +28,8 @@ func TextHandler(context tele.Context) error {
 		return nil
 	}
 
-	if utils.IsValidMail(context.Text()) {
-		saveEmailAndUpdateSender(sender, context, storage)
+	if utils.IsValidMail(text) {
+		saveEmailAndUpdateSender(sender, context, storage, text)
 	} else {
 		err := context.Reply("Invalid email, please try again 🥳")
 		if err != nil {
@@ -36,8 +40,8 @@ func TextHandler(context tele.Context) error {
 	return nil
 }
 
-func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, storage *utils.Storage) {
-	sender.Email = context.Text()
+func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, storage *utils.Storage, email string) {
+	sender.Email = email
 	sender.UserName = context.Sender().Username
 	sender.TelegramID = context.Sender().ID
 

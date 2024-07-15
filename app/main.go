@@ -48,10 +48,12 @@ func main() {
 
 	bot.Handle("/start", handlers.StartHandler)
 	bot.Handle("/status", handlers.StatusHandler)
+	bot.Handle("/email", handlers.TextHandler)
 	bot.Handle(tele.OnText, handlers.TextHandler)
 	bot.Handle(tele.OnDocument, handlers.DocumentHandler)
 	err = bot.SetCommands([]tele.Command{
 		{Text: "start", Description: "Start working with bot"},
+		{Text: "email", Description: "Set email"},
 		// {Text: "status", Description: "Show current status"},
 	})
 	if err != nil {
