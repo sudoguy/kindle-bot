@@ -18,7 +18,12 @@ func TextHandler(context tele.Context) error {
 	log.Info().Int64("telegram_id", context.Sender().ID).Str("username", context.Sender().Username).Str("text", context.Text()).Msg("Received message")
 
 	// Remove the "/email" prefix if present
-	text, _ := strings.CutPrefix(context.Text(), "/email")
+	text, isCommand := strings.CutPrefix(context.Text(), "/email")
+
+	if !isCommand && context.Chat().Type != tele.ChatPrivate {
+		log.Info().Str("text", text).Str("chat_type", string(context.Chat().Type)).Msg("Not a private chat, ignoring")
+		return nil
+	}
 
 	storage := utils.NewStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
