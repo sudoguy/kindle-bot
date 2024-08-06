@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"os"
+	"path"
 	"slices"
-	"strconv"
 	"time"
 
 	"github.com/sudoguy/kindle-bot/app/mailer"
@@ -41,9 +41,13 @@ func DocumentHandler(context tele.Context) error {
 		return err
 	}
 
-	userID := strconv.Itoa(int(sender.TelegramID))
-	_ = os.MkdirAll("books/"+userID, 0o750)
-	filePath := "books/" + userID + "/" + document.FileName
+	var msg string
+	if context.Chat().Type == tele.ChatPrivate {
+		msg = "⏳ Received a book, working..."
+		go context.Reply(msg)
+	}
+
+	filePath := path.Join(sender.Path(), document.FileName)
 	err = context.Bot().Download(&document.File, filePath)
 
 	if err != nil {
@@ -56,9 +60,8 @@ func DocumentHandler(context tele.Context) error {
 	toEmail := sender.Email
 	appSettings := settings.NewSettings()
 	mail := mailer.NewMailer(*appSettings, toEmail)
-	err = mail.SendBook("books/" + userID + "/" + document.FileName)
+	err = mail.SendBook(filePath)
 
-	var msg string
 	if err != nil {
 		log.Error().Err(err)
 		msg = "❌ An error has occurred. " + document.FileName + " was not sent"
@@ -66,7 +69,7 @@ func DocumentHandler(context tele.Context) error {
 		contextedLog.Msg("Book " + document.FileName + " was sent to " + toEmail)
 		msg = "✅ " + document.FileName + " is successfully sent"
 		sender.BooksSent++
-		storage.UpdateSender(sender)
+		_ = storage.UpdateSender(sender)
 	}
 
 	if err := context.Reply(msg); err != nil {

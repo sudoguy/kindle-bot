@@ -50,7 +50,10 @@ func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, st
 	sender.UserName = context.Sender().Username
 	sender.TelegramID = context.Sender().ID
 
-	storage.UpdateSender(sender)
+	if err := storage.UpdateSender(sender); err != nil {
+		log.Error().Err(err).Msg("Failed to update sender")
+		return
+	}
 	log.Info().Str("email", sender.Email).Int64("telegram_id", sender.TelegramID).Msg("Email saved")
 
 	msg := "Email saved 🥳\nNow Send me book, please 🎉"
@@ -72,8 +75,10 @@ func RegisterNewUser(context tele.Context, storage *utils.Storage) {
 		TelegramID: tgSender.ID,
 		UserName:   tgSender.Username,
 	}
-	storage.Senders = append(storage.Senders, *sender)
-	storage.WriteSendersToFile()
+	if err := storage.UpdateSender(sender); err != nil {
+		log.Error().Err(err).Msg("Failed to update sender")
+		msg = "Failed to register you, please try again 🥳"
+	}
 
 	err := context.Reply(msg)
 	if err != nil {
