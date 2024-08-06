@@ -7,5 +7,4 @@ services:
     restart: unless-stopped
     env_file: .env
     volumes:
-      - ./books:/root/books
-      - ./senders.json:/root/senders.json
+      - ./storage:/home/bot/storage

@@ -54,7 +54,7 @@ func main() {
 	err = bot.SetCommands([]tele.Command{
 		{Text: "start", Description: "Start working with bot"},
 		{Text: "email", Description: "Set email"},
-		// {Text: "status", Description: "Show current status"},
+		{Text: "status", Description: "Show current status"},
 	})
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to set commands")

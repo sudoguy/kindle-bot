@@ -25,11 +25,11 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bot ./app
 FROM alpine:3.20
 
 # Create a non-root user and switch to it
-RUN adduser -D myuser
-USER myuser
+RUN adduser -D bot
+USER bot
 
 # Set the working directory in the final image
-WORKDIR /home/myuser
+WORKDIR /home/bot
 
 # Copy the binary from the builder stage to the current directory
 COPY --from=builder /multistage/bot .
