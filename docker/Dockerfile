@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use a specific version of golang
-FROM golang:1.22-alpine as builder
+FROM golang:1.24-alpine as builder
 
 # Copy the go.mod and go.sum files to the /multistage directory
 COPY go.mod go.sum /multistage/
@@ -22,7 +22,7 @@ ENV GO111MODULE=on
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bot ./app
 
 # Use a specific version of alpine for the final image
-FROM alpine:3.20
+FROM alpine:3.21
 
 # Create a non-root user and switch to it
 RUN adduser -D bot
