@@ -20,6 +20,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: download dependencies
+        run: go mod download
+
       - name: build and test
         run: |
           go test -v -timeout=100s -p 1 -covermode=atomic -coverprofile=$GITHUB_WORKSPACE/profile.cov_tmp ./...
