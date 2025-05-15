@@ -4,14 +4,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v3"
 
 	"github.com/sudoguy/kindle-bot/app/handlers"
 	"github.com/sudoguy/kindle-bot/app/settings"
-
-	"github.com/joho/godotenv"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
 func main() {

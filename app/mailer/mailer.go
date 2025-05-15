@@ -1,9 +1,11 @@
 package mailer
 
 import (
-	"github.com/sudoguy/kindle-bot/app/settings"
+	"fmt"
 
 	"gopkg.in/gomail.v2"
+
+	"github.com/sudoguy/kindle-bot/app/settings"
 )
 
 // Mailer represents an email sender.
@@ -42,7 +44,7 @@ func (m *Mailer) SendBook(bookPath string) error {
 	dialer := gomail.NewDialer(m.SMTPHost, m.SMTPPort, m.EmailUsername, m.EmailPassword)
 
 	if err := dialer.DialAndSend(message); err != nil {
-		return err
+		return fmt.Errorf("failed to send email: %w", err)
 	}
 
 	return nil

@@ -1,18 +1,19 @@
 package handlers
 
 import (
+	"fmt"
 	"os"
 	"path"
 	"slices"
 	"time"
 
-	"github.com/sudoguy/kindle-bot/app/mailer"
-	"github.com/sudoguy/kindle-bot/app/settings"
-	"github.com/sudoguy/kindle-bot/app/utils"
-
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v3"
+
+	"github.com/sudoguy/kindle-bot/app/mailer"
+	"github.com/sudoguy/kindle-bot/app/settings"
+	"github.com/sudoguy/kindle-bot/app/utils"
 )
 
 // DocumentHandler handles the document message
@@ -36,6 +37,7 @@ func DocumentHandler(context tele.Context) error {
 		err := context.Reply(msg)
 		if err != nil {
 			log.Error().Err(err)
+			return fmt.Errorf("failed to send reply: %w", err)
 		}
 
 		return err
@@ -49,7 +51,6 @@ func DocumentHandler(context tele.Context) error {
 
 	filePath := path.Join(sender.Path(), document.FileName)
 	err = context.Bot().Download(&document.File, filePath)
-
 	if err != nil {
 		log.Error().Err(err)
 		return err
@@ -74,6 +75,7 @@ func DocumentHandler(context tele.Context) error {
 
 	if err := context.Reply(msg); err != nil {
 		log.Err(err)
+		return fmt.Errorf("failed to send reply: %w", err)
 	}
 
 	return nil

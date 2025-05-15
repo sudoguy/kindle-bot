@@ -6,8 +6,9 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/sudoguy/kindle-bot/app/utils"
 	tele "gopkg.in/telebot.v3"
+
+	"github.com/sudoguy/kindle-bot/app/utils"
 )
 
 // StartHandler handles the /start command
@@ -17,7 +18,6 @@ func StartHandler(context tele.Context) error {
 
 	storage := utils.NewStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
-
 	if err != nil {
 		RegisterNewUser(context, storage)
 		return nil

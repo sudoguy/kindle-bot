@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/sudoguy/kindle-bot/app/utils"
-
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v3"
+
+	"github.com/sudoguy/kindle-bot/app/utils"
 )
 
 // StatusHandler handles the /status command
@@ -19,14 +19,17 @@ func StatusHandler(context tele.Context) error {
 
 	storage := utils.NewStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
-
 	if err != nil {
 		RegisterNewUser(context, storage)
 		return nil
 	}
 
+	text := formatStatusMessage(sender)
+	return context.Reply(text)
+}
+
+func formatStatusMessage(sender *utils.SenderInfo) string {
 	text := "Attached email: " + sender.Email + "\n"
 	text += "Books sent: " + strconv.Itoa(sender.BooksSent)
-
-	return context.Reply(text)
+	return text
 }

@@ -3,9 +3,9 @@ package mailer
 import (
 	"testing"
 
-	"github.com/sudoguy/kindle-bot/app/settings"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/sudoguy/kindle-bot/app/settings"
 )
 
 func TestNewMailer(t *testing.T) {

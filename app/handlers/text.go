@@ -5,11 +5,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sudoguy/kindle-bot/app/utils"
-
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v3"
+
+	"github.com/sudoguy/kindle-bot/app/utils"
 )
 
 // TextHandler handles the text message
@@ -27,7 +27,6 @@ func TextHandler(context tele.Context) error {
 
 	storage := utils.NewStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
-
 	if err != nil {
 		RegisterNewUser(context, storage)
 		return nil
@@ -59,7 +58,6 @@ func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, st
 	msg := "Email saved 🥳\nNow Send me book, please 🎉"
 
 	err := context.Reply(msg)
-
 	if err != nil {
 		log.Error().Err(err)
 	}
