@@ -48,12 +48,14 @@ func main() {
 	bot.Handle("/start", handlers.StartHandler)
 	bot.Handle("/status", handlers.StatusHandler)
 	bot.Handle("/email", handlers.TextHandler)
+	bot.Handle("/help", handlers.HelpHandler)
 	bot.Handle(tele.OnText, handlers.TextHandler)
 	bot.Handle(tele.OnDocument, handlers.DocumentHandler)
 	err = bot.SetCommands([]tele.Command{
 		{Text: "start", Description: "Start working with bot"},
 		{Text: "email", Description: "Set email"},
 		{Text: "status", Description: "Show current status"},
+		{Text: "help", Description: "Show usage instructions"},
 	})
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to set commands")

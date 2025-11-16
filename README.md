@@ -46,6 +46,7 @@ Available commands registered by the bot:
 - `/start` – greets the user and requests the Kindle email.
 - `/email <address>` – saves or updates the Kindle email for the current chat (can also just send the email in a private chat).
 - `/status` – shows the saved email and number of books already sent.
+- `/help` – prints the short instructions below in chat.
 
 After the email is saved, send a `.mobi` or `.epub` document in a private chat. Other formats are rejected with a helpful message. Each upload is stored under `storage/<telegram_id>` and forwarded via SMTP.
 
