@@ -26,10 +26,10 @@ func TextHandler(context tele.Context) error {
 		return nil
 	}
 
-	storage := utils.NewStorage()
+	storage := getStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
 	if err != nil {
-		RegisterNewUser(context, storage)
+		RegisterNewUser(context)
 		return nil
 	}
 
@@ -65,7 +65,8 @@ func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, st
 }
 
 // RegisterNewUser registers a new user
-func RegisterNewUser(context tele.Context, storage *utils.Storage) {
+func RegisterNewUser(context tele.Context) {
+	storage := getStorage()
 	tgSender := context.Sender()
 	log.Info().Int64("telegram_id", tgSender.ID).Str("username", tgSender.Username).Msg("New user")
 	msg := "Send me your email, please 📧"

@@ -17,10 +17,10 @@ func StatusHandler(context tele.Context) error {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	log.Info().Int64("telegram_id", context.Sender().ID).Str("username", context.Sender().Username).Msg("Status command")
 
-	storage := utils.NewStorage()
+	storage := getStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
 	if err != nil {
-		RegisterNewUser(context, storage)
+		RegisterNewUser(context)
 		return nil
 	}
 

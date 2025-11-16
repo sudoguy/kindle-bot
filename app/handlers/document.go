@@ -13,7 +13,6 @@ import (
 
 	"github.com/sudoguy/kindle-bot/app/mailer"
 	"github.com/sudoguy/kindle-bot/app/settings"
-	"github.com/sudoguy/kindle-bot/app/utils"
 )
 
 // DocumentHandler handles the document message
@@ -23,11 +22,11 @@ func DocumentHandler(context tele.Context) error {
 	document := context.Message().Document
 	contextedLog := log.Info().Int64("telegram_id", context.Sender().ID).Str("username", context.Sender().Username).Str("document_name", document.FileName)
 
-	storage := utils.NewStorage()
+	storage := getStorage()
 	sender, err := storage.GetSenderByID(context.Sender().ID)
 
 	if err != nil || sender.Email == "" {
-		RegisterNewUser(context, storage)
+		RegisterNewUser(context)
 		return nil
 	}
 
