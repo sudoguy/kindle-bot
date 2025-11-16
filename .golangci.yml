@@ -1,6 +1,6 @@
 run:
   timeout: 5m
-  go: '1.24' # Specify the minimum Go version
+  go: '1.25' # Specify the minimum Go version
   concurrency: 4 # Number of parallel processes
 
 linters-settings:
