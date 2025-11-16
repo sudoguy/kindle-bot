@@ -1,98 +1,105 @@
+version: "2"
 run:
-  timeout: 5m
-  go: '1.25' # Specify the minimum Go version
-  concurrency: 4 # Number of parallel processes
-
-linters-settings:
-  govet:
-    enable:
-      - shadow
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-  misspell:
-    locale: US
-  lll:
-    line-length: 140
-  gocritic:
-    enabled-tags:
-      - performance
-      - style
-      - experimental
-    disabled-checks:
-      - wrapperFunc
-      - hugeParam
-      - rangeValCopy
-      - singleCaseSwitch
-      - ifElseChain
-  errorlint:
-    errorf: true
-    asserts: true
-    comparison: true
-  exhaustive:
-    check-generated: false
-    default-signifies-exhaustive: true
-  gci:
-    sections:
-      - standard
-      - default
-      - prefix(github.com/sudoguy/kindle-bot)
-
+  concurrency: 4
+  go: "1.25"
 linters:
+  default: none
   enable:
-    - staticcheck # Finds bugs and performance issues
-    - revive # Enforces code style and best practices
-    - govet # Reports potential issues
-    - unconvert # Detects unnecessary type conversions
-    - unused # Identifies unused variables and constants
-    - gosec # Checks for security issues
-    - gocyclo # Calculates cyclomatic complexity of functions
-    - dupl # Finds duplicate code
-    - misspell # Detects spelling mistakes
-    - unparam # Identifies unused function parameters
-    - typecheck # Performs type checking
-    - ineffassign # Identifies inefficient assignments
-    - stylecheck # Enforces code style and best practices
-    - gochecknoinits # Checks for init functions
-    - copyloopvar # Detects loop variable references in closures
-    - gocritic # Additional static analysis checks
-    - nakedret # Identifies naked returns in functions
-    - gosimple # Simplifies code
-    - prealloc # Suggests preallocating slices
-    - whitespace # Detects leading and trailing spaces
-    - testifylint # Checks code using the testify package
-    - sloglint # Checks for issues in code using the slog package
-    - errorlint # Ensures proper error wrapping
-    - exhaustive # Checks exhaustive switch statements for enums
-    - gofumpt # Stricter Go formatting rules
-    - gci # Enforces Go import order
-    - thelper # Detects test helper functions without t.Helper
-    - nilnil # Checks nil returns in error results
-  fast: false
-  disable-all: true
-
+    - copyloopvar
+    - dupl
+    - errorlint
+    - exhaustive
+    - gochecknoinits
+    - gocritic
+    - gocyclo
+    - gosec
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - nilnil
+    - prealloc
+    - revive
+    - sloglint
+    - staticcheck
+    - testifylint
+    - thelper
+    - unconvert
+    - unparam
+    - unused
+    - whitespace
+  settings:
+    errorlint:
+      errorf: true
+      asserts: true
+      comparison: true
+    exhaustive:
+      default-signifies-exhaustive: true
+    goconst:
+      min-len: 2
+      min-occurrences: 2
+    gocritic:
+      disabled-checks:
+        - wrapperFunc
+        - hugeParam
+        - rangeValCopy
+        - singleCaseSwitch
+        - ifElseChain
+      enabled-tags:
+        - performance
+        - style
+        - experimental
+    govet:
+      enable:
+        - shadow
+    lll:
+      line-length: 140
+    misspell:
+      locale: US
+  exclusions:
+    generated: lax
+    rules:
+      - linters:
+          - staticcheck
+        text: at least one file in a package should have a package comment
+      - linters:
+          - revive
+        text: should have a package comment
+      - linters:
+          - dupl
+          - gosec
+        path: _test\.go
+      - linters:
+          - revive
+          - unparam
+          - unused
+        path: _test\.go$
+        text: unused-parameter
+      - linters:
+          - govet
+        text: 'shadow: declaration of "(err|ctx)" shadows declaration at'
+    paths:
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
 issues:
-  exclude-dirs:
-    - vendor
-  exclude-rules:
-    - text: "at least one file in a package should have a package comment"
-      linters:
-        - stylecheck
-    - text: "should have a package comment"
-      linters:
-        - revive
-    - path: _test\.go
-      linters:
-        - gosec
-        - dupl
-    - linters:
-        - unparam
-        - unused
-        - revive
-      path: _test\.go$
-      text: "unused-parameter"
-    - text: 'shadow: declaration of "(err|ctx)" shadows declaration at'
-      linters: [ govet ]
-  exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/sudoguy/kindle-bot)
+  exclusions:
+    generated: lax
+    paths:
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
