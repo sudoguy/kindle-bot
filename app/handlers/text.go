@@ -7,7 +7,7 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	tele "gopkg.in/telebot.v3"
+	tele "gopkg.in/telebot.v4"
 
 	"github.com/sudoguy/kindle-bot/app/utils"
 )

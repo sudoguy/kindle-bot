@@ -5,9 +5,8 @@ go 1.25
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
-	gopkg.in/telebot.v3 v3.3.8
 )
 
 require (
@@ -17,5 +16,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/telebot.v4 v4.0.0-beta.7
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
