@@ -2,40 +2,52 @@
 
 ## Overview
 
-Kindle Bot is a Telegram bot designed to facilitate the transfer of books directly to your Amazon Kindle device via email. By receiving book files through Telegram messages, it offers a convenient way to send reading material to your Kindle.
+Kindle Bot is a Telegram bot that forwards your books straight to the Kindle email assigned to your Amazon device. Upload a supported file in Telegram and the bot will relay it through the configured SMTP server.
 
 ## Getting Started
 
 ### Prerequisites
 
-- A Telegram account.
-- An Amazon Kindle device with an active Kindle email address.
-- A bot token from BotFather for your Telegram bot.
-- An email account with SMTP settings.
+- Go 1.25 or newer.
+- A Telegram account and a bot token from BotFather.
+- An Amazon Kindle email address that trusts the sender address you plan to use.
+- SMTP credentials for the address that will send the files.
 
 ### Configuration
 
-Configure the application settings through environment variables. The following variables are required:
+Create a `.env` file in the project root (or export the variables) with the following keys:
 
-- BOT_TOKEN: Your Telegram bot token.
-- FROM_EMAIL: The email address used to send books to Kindle.
-- EMAIL_USERNAME: Username for the email account.
-- EMAIL_PASSWORD: Password for the email account.
-- SMTP_HOST: SMTP server host for the email account.
-- SMTP_PORT: SMTP server port.
+- `BOT_TOKEN` – Telegram bot token.
+- `FROM_EMAIL` – address that will send the books to Kindle.
+- `EMAIL_USERNAME` / `EMAIL_PASSWORD` – login for the SMTP account.
+- `SMTP_HOST` / `SMTP_PORT` – SMTP endpoint and port.
 
-### Installation
+### Running locally
 
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Install dependencies.
-4. Set the required environment variables as described in the Configuration section.
-5. Run the bot.
+1. Install Go 1.25 and clone this repository.
+2. `go mod download` to fetch dependencies (network access required once).
+3. `go run ./app` starts the bot with the current terminal session.
+4. Alternatively, `go build -o bot ./app` followed by `./bot` runs a compiled binary.
+
+### Docker
+
+The repository contains `docker/Dockerfile` and `docker-compose.yml`.
+
+```bash
+docker compose up --build
+```
+
+The compose file mounts the local `./storage` folder, so chats keep their state between restarts. Provide your `.env` file in the project root before launching the stack.
 
 ## Usage
 
-- /start: Begin interaction with the bot by sending the /start command. The bot will prompt you to send your email address to set up the forwarding of books to your Kindle.
-- Send a document to the bot to have it forwarded to your Kindle email.
+Available commands registered by the bot:
+
+- `/start` – greets the user and requests the Kindle email.
+- `/email <address>` – saves or updates the Kindle email for the current chat (can also just send the email in a private chat).
+- `/status` – shows the saved email and number of books already sent.
+
+After the email is saved, send a `.mobi` or `.epub` document in a private chat. Other formats are rejected with a helpful message. Each upload is stored under `storage/<telegram_id>` and forwarded via SMTP.
 
 ## Contributing
 

@@ -19,6 +19,7 @@ func TextHandler(context tele.Context) error {
 
 	// Remove the "/email" prefix if present
 	text, isCommand := strings.CutPrefix(context.Text(), "/email")
+	text = strings.TrimSpace(text)
 
 	if !isCommand && context.Chat().Type != tele.ChatPrivate {
 		log.Info().Str("text", text).Str("chat_type", string(context.Chat().Type)).Msg("Not a private chat, ignoring")

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use a specific version of golang
-FROM golang:1.24-alpine as builder
+FROM golang:1.25-alpine as builder
 
 # Copy the go.mod and go.sum files to the /multistage directory
 COPY go.mod go.sum /multistage/
