@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v4"
 
-	"github.com/sudoguy/kindle-bot/app/utils"
+	"github.com/sudoguy/kindle-bot/app/senders"
 )
 
 // StatusHandler handles the /status command
@@ -28,7 +28,7 @@ func StatusHandler(context tele.Context) error {
 	return context.Reply(text)
 }
 
-func formatStatusMessage(sender *utils.SenderInfo) string {
+func formatStatusMessage(sender *senders.SenderInfo) string {
 	text := "Attached email: " + sender.Email + "\n"
 	text += "Books sent: " + strconv.Itoa(sender.BooksSent)
 	return text

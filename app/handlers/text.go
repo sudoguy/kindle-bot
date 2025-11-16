@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 	tele "gopkg.in/telebot.v4"
 
-	"github.com/sudoguy/kindle-bot/app/utils"
+	"github.com/sudoguy/kindle-bot/app/senders"
 )
 
 // TextHandler handles the text message
@@ -33,7 +33,7 @@ func TextHandler(context tele.Context) error {
 		return nil
 	}
 
-	if utils.IsValidMail(text) {
+	if senders.IsValidMail(text) {
 		saveEmailAndUpdateSender(sender, context, storage, text)
 	} else {
 		err := context.Reply("Invalid email, please try again 🥳")
@@ -45,7 +45,7 @@ func TextHandler(context tele.Context) error {
 	return nil
 }
 
-func saveEmailAndUpdateSender(sender *utils.SenderInfo, context tele.Context, storage *utils.Storage, email string) {
+func saveEmailAndUpdateSender(sender *senders.SenderInfo, context tele.Context, storage *senders.Storage, email string) {
 	sender.Email = email
 	sender.UserName = context.Sender().Username
 	sender.TelegramID = context.Sender().ID
@@ -71,7 +71,7 @@ func RegisterNewUser(context tele.Context) {
 	log.Info().Int64("telegram_id", tgSender.ID).Str("username", tgSender.Username).Msg("New user")
 	msg := "Send me your email, please 📧"
 
-	sender := &utils.SenderInfo{
+	sender := &senders.SenderInfo{
 		TelegramID: tgSender.ID,
 		UserName:   tgSender.Username,
 	}
